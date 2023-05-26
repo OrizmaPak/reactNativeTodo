@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, getFirestore, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { app } from '../config/firebase';
 import { useContext } from "react";
 import NavContext from "../NavContext";
@@ -40,8 +40,8 @@ export const addATask =async(task, email)=>{
             constructor( task, email) { 
                 this.id = generateId();
                 this.task = task.trim();
-                this.completed = false;
                 this.email = email;
+                this.checked = false;
                 this.created = getCurrentDateTime();
             }
         }
@@ -55,6 +55,7 @@ export const addATask =async(task, email)=>{
           task: taskData.task,
           email: taskData.email,
           created: taskData.created,
+          checked: taskData.checked
         });
 
         return {status: true, task: taskData.task}
@@ -66,27 +67,68 @@ export const addATask =async(task, email)=>{
 }
 
 export const getAllTask =async(email)=>{
-    console.log('get all task inited', email);
-    let documents = []
-    try{
-        const docRef = collection(db, "tasks");
-        const docSnap = await getDocs(query(docRef, where('email', '==', email)))
-          docSnap.forEach((doc) => {
-            documents.push(doc);
+        console.log('get all task email init', email)
+        if(email == undefined)return
+            try {
+              const collectionRef = collection(db, 'tasks');
+              const q = query(collectionRef, where('email', '==', email));
+              const querySnapshot = await getDocs(q);
+          
+              const documents = [];
+              querySnapshot.forEach((doc) => {
+                documents.push(doc.data());
+              });
+              console.log('documents', documents)
+              return documents;
+            } catch (err) {
+                console.log('getalltask error', err);
+                return null
+            }
+}
+
+export const updateFieldTask =async(id, field, value)=>{
+    console.log('update', id, field, value)
+    // async function updateTaskField(collectionName, docId, field, value) {
+        try {
+          const docRef = doc(db, "tasks", id);
+          let result = await updateDoc(docRef, {
+            [field]: value,
           });
-      console.log('documents', documents)
-        console.log('docSnap', docSnap)
-        if (docSnap.exists()) {
-            console.log('expected data', docSnap.data())
-            return {name:docSnap.data()}
-          } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such document!");
-            return null
+        //   console.log('result', result)
+          return true;
+        } catch (error) {
+            console.log('getalltask error', err);
+            return null;
         }
-    }catch(err){
-        console.log('get task errr', err)
-        return null
-        
-    }
+    //   }
+      
+}
+
+export const updateMultipleFields =async(id, objFields)=>{
+    console.log('updatemultiple', id, objFields)
+    // async function updateTaskFields(collectionName, docId, updateData) {
+        try {
+          const docRef = doc(db, "tasks", id);
+          await updateDoc(docRef, objFields);
+          return true;
+        } catch (error) {
+            console.log('edit error', err);
+            return null;
+        }
+    //   }
+}
+
+export const deleteTask =async(id)=>{
+    // export const deleteDocument = async (collection, documentId) => {
+        try {
+          const documentRef = doc(db, "tasks", id);
+          await deleteDoc(documentRef);
+          return true
+          // Return any success message or handle deletion success
+        } catch (error) {
+          console.error('Error deleting document:', error);
+          return null
+          // Return or handle the deletion error
+        }
+    //   };
 }

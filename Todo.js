@@ -5,28 +5,31 @@ import { CheckBox } from 'react-native-elements';
 import { Image } from 'react-native';
 import NavContext from './NavContext';
 import { InputText } from './Component/InputText';
+import { getAllTask, updateFieldTask } from './Hooks/Todo';
 
 export const Todo = ({ navigation }) => {
-    const modal = useContext(NavContext).modal;
+    const {callNotice, setIsLoading, checkboxData, setCheckboxData, userEmail} = useContext(NavContext);
     // FOR STYLES
   const styles = getStyles();
-  const [checkboxData, setCheckboxData] = useState([
-    // { id: 1, checked: false, text: 'Going to the marketGoing to the marketGoing to the market' },
-    // { id: 2, checked: false, text: 'Meeting with friends' },
-    // { id: 3, checked: false, text: 'Finish homework' },
-    // { id: 4, checked: false, text: 'Exercise at the gym' },
-    // { id: 5, checked: false, text: 'Read a book' },
-    // { id: 6, checked: false, text: 'Buy groceries' },
-    // { id: 7, checked: false, text: 'Buy food' },
-    // { id: 8, checked: false, text: 'Buy gold' },
-    // { id: 9, checked: false, text: 'Buy silver' },
-    // { id: 10, checked: false, text: 'Buy bitcoin' },
-]);
+  
 
-  const handleCheckBoxToggle = (id) => {
-    const newCheckboxData = [...checkboxData]; // Create a copy of the checkbox data array
-    newCheckboxData[id-1].checked = !newCheckboxData[id-1].checked; // Toggle the state of the clicked checkbox
-    setCheckboxData(newCheckboxData); // Update the checkbox data
+  const handleCheckBoxToggle = async(id, checked) => {
+    // const newCheckboxData = [...checkboxData]; // Create a copy of the checkbox data array
+    // newCheckboxData[id-1].checked = !newCheckboxData[id-1].checked; // Toggle the state of the clicked checkbox
+    setIsLoading(true);
+    try{
+        let result = await updateFieldTask(id, 'checked', !checked);
+        if(result){
+            let data = await getAllTask(userEmail);
+            setCheckboxData(data)
+            callNotice('Update successful', 1)
+        }else{
+            callNotice('Update faileddd', 0)
+        }
+    }catch(err){
+        callNotice('Update failedd', 0)
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -43,12 +46,12 @@ export const Todo = ({ navigation }) => {
                 </Text>       
                 {checkboxData.filter(item=>item.checked == false).map((item) => (
                     <View key={item.id} style={styles.cardItem}>
-                    <CheckBox checked={item.checked} onPress={() => handleCheckBoxToggle(item.id)} />
-                    <Text style={{ color: '#1443A3FF', fontWeight: 'bold', fontSize: 14, position: 'relative', right: 16, width: '60%'}}>{item.text}</Text>
-                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, text: item.text, checked: item.checked})}>
+                    <CheckBox checked={item.checked} onPress={() => handleCheckBoxToggle(item.id, item.checked)} />
+                    <Text style={{ color: '#1443A3FF', fontWeight: 'bold', fontSize: 14, position: 'relative', right: 16, width: '60%'}}>{item.task}</Text>
+                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, task: item.task, checked: item.checked, action: 'edit'})}>
                     <Image source={require('./assets/draw.png')} style={{ width: 20, height: 20 }} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, text: item.text, checked: item.checked})}>
+                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, task: item.task, checked: item.checked, action: 'delete'})}>
                     <Image source={require('./assets/delete.png')} style={{ width: 20, height: 20, position: 'relative', left: 13, }} />
                     </TouchableOpacity>
                 </View>
@@ -62,12 +65,12 @@ export const Todo = ({ navigation }) => {
                 </Text>       
                 {checkboxData.filter(item=>item.checked == true).map((item) => (
                 <View key={item.id} style={styles.cardItem}>
-                    <CheckBox checked={item.checked} onPress={() => handleCheckBoxToggle(item.id)} />
-                    <Text style={{ color: '#1443A3FF', fontWeight: 'bold', fontSize: 14, position: 'relative', right: 16, width: '60%'}}>{item.text}</Text>
-                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, text: item.text, checked: item.checked})}>
+                    <CheckBox checked={item.checked} onPress={() => handleCheckBoxToggle(item.id, item.checked)} />
+                    <Text style={{ color: '#1443A3FF', fontWeight: 'bold', fontSize: 14, position: 'relative', right: 16, width: '60%'}}>{item.task}</Text>
+                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, task: item.task, checked: item.checked, action: 'edit'})}>
                     <Image source={require('./assets/draw.png')} style={{ width: 20, height: 20 }} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, text: item.text, checked: item.checked})}>
+                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, task: item.task, checked: item.checked, action: 'delete'})}>
                     <Image source={require('./assets/delete.png')} style={{ width: 20, height: 20, position: 'relative', left: 13, }} />
                     </TouchableOpacity>
                 </View>

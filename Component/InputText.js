@@ -8,21 +8,23 @@ import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 export const InputText = ({ buttontext }) => {
   const styles = getStyles();
   const [inputValue, setInputValue] = useState('');
-  const {callNotice, setIsLoading, userEmail} = useContext(NavContext)
+  const {callNotice, setIsLoading, userEmail, setCheckboxData} = useContext(NavContext)
 
   const handleAdd = async() => {
     setIsLoading(true)
     try{
         let task = await addATask(inputValue, userEmail);
         console.log("task made", task)
-        if(task.status)callNotice(`${task.task} has been add`, 1)
         setInputValue('')
+        let data = await getAllTask(userEmail);
+        setCheckboxData(data)
+        if(task.status)callNotice(`${task.task} has been add`, 1)
     }catch(error){
         console.log('task error', error)
         callNotice('Something went wrong', 0)
     }
-    getAllTask(userEmail);
     setIsLoading(false)
+    // getAllTask(userEmail).then(doc=>setCheckboxData(doc)).catch(err=>callNotice('Something went wrong getting all task', 0));
 };
 
   return (

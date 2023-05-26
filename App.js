@@ -23,7 +23,19 @@ import { getAllTask } from './Hooks/Todo';
 
 
 export default function App() {
-  // EMAIL STATE OF THE USER
+  // TO DO ITEMS
+  const [checkboxData, setCheckboxData] = useState([
+    // { id: 1, checked: false, text: 'Going to the marketGoing to the marketGoing to the market' },
+    // { id: 2, checked: false, text: 'Meeting with friends' },
+    // { id: 3, checked: false, text: 'Finish homework' },
+    // { id: 4, checked: false, text: 'Exercise at the gym' },
+    // { id: 5, checked: false, text: 'Read a book' },
+    // { id: 6, checked: false, text: 'Buy groceries' },
+    // { id: 7, checked: false, text: 'Buy food' },
+    // { id: 8, checked: false, text: 'Buy gold' },
+    // { id: 9, checked: false, text: 'Buy silver' },
+    // { id: 10, checked: false, text: 'Buy bitcoin' },
+]);
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('')
   // IS LOADING STATE
@@ -45,16 +57,23 @@ export default function App() {
   const [notifyStatus, setNotifyStatus] = useState(2);
 
   // GET NAMES WHEN USER SIGNS IN
-  useEffect(()=>{
-    if(userEmail == ''){
-      return
-    }else{
-      // THIS FUNCTION RETURNS THE FIRSTNAME AND LASTNAME FIX IT TO THE USERNAME STATE
-      // setUserName(getNamesFromEmail(userEmail))
-      // getNamesFromEmail(userEmail)
-    }
-  },[userEmail])
-
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userEmail === '') {
+        // Handle the case when userEmail is empty
+      } else {
+        try {
+          let data = await getAllTask(userEmail);
+          setCheckboxData(data);
+        } catch (err) {
+          callNotice('Something went wrong', 0);
+        }
+      }
+    };
+  
+    fetchData();
+  }, [userEmail]);
+  
   
   // FOR ANIMATIONS
   const screenLeft = useState(new Animated.Value(0))[0]
@@ -166,7 +185,7 @@ export default function App() {
 
   return (
     // <NavigateContextProvider>
-    <NavContext.Provider value={{ callNotice, isLoading, setIsLoading, navAction, setNavAction, modal, setModal, animator, notify, setNotify, notifyStatus, setNotifyStatus, notifytext, setNotifyText, userEmail, setUserEmail, userName, setUserName }}>
+    <NavContext.Provider value={{ checkboxData, setCheckboxData, callNotice, isLoading, setIsLoading, navAction, setNavAction, modal, setModal, animator, notify, setNotify, notifyStatus, setNotifyStatus, notifytext, setNotifyText, userEmail, setUserEmail, userName, setUserName }}>
       <View style={styles.container}>
         {/* LOADER */}
         <View style={{ display: isLoading ? 'flex' : 'none',width: '100%', height: '100%', marginTop: 'auto', marginBottom: 'auto', position: 'absolute', top: 0, zIndex:2000}}>
@@ -211,7 +230,7 @@ export default function App() {
                       />
                       <Text style={styles.navitem}>Home</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.button} onPress={()=>{navigationRef.current.navigate('Login');setNavAction(false)}}> 
+                  <TouchableOpacity style={styles.button} onPress={()=>{setNavAction(false)}}> 
                       <Image source={require('./assets/pay.png')}
                       style={{ width: 25, height: 25 }}  
                       />
