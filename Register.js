@@ -44,7 +44,7 @@ export const Register = ({navigation}) => {
             setNotifyText('Account created successfully');
             setNotifyStatus(1);
             setNotify(true);
-            setUserEmail(email);
+            setUserEmail(user.email);
             setUserName(user.name);
             storeAccessToken(user.token)
             navigation.navigate('Todo')

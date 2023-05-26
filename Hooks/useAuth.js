@@ -19,7 +19,7 @@ export const getNamesFromEmail =async(email, token)=>{
             console.log('docSnap', docSnap.data())
             if (docSnap.exists()) {
                 console.log('expected data', [docSnap.data().firstName, docSnap.data().lastName])
-                return {name:[docSnap.data().firstName, docSnap.data().lastName], token}
+                return {name:[docSnap.data().firstName, docSnap.data().lastName], email, token}
               } else {
                 // docSnap.data() will be undefined in this case
                 console.log("No such document!");

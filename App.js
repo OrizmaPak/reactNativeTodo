@@ -17,7 +17,7 @@ import { Register } from './Register';
 import { app } from './config/firebase';
 import { ActivityIndicator } from 'react-native';
 import { getNamesFromEmail, signOutAUser } from './Hooks/useAuth';
-import { auth } from "firebase/auth"
+import { getAllTask } from './Hooks/Todo';
 // import {NavigateContextProvider}  from "./Navigate" 
 
 
@@ -46,7 +46,6 @@ export default function App() {
 
   // GET NAMES WHEN USER SIGNS IN
   useEffect(()=>{
-    console.log('auth', auth.currenUser)
     if(userEmail == ''){
       return
     }else{
@@ -86,6 +85,15 @@ export default function App() {
       animator(screenScale, 1);
     }
   },[navAction])
+
+  // LOAD TASKS
+  useEffect(()=>{
+    try{
+      getAllTask();
+    }catch(err){
+      callNotice('Error getting task', 0);
+    }
+  },[])
 
 
   // FUNCTION TO SELECT IMAGE AND SET IT TO THE IMAGESOURCE USESTATE
