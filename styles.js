@@ -66,6 +66,15 @@ const getStyles = () => {
     marginBottom: 'auto',
     
   },
+  navitemred: {
+    fontFamily: 'lili',
+    color: '#FF968FFF',
+    marginLeft: 16,
+    fontSize: 15,
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    
+  },
   screenContainer: {
     position: 'absolute',
     width: '100%',
@@ -77,12 +86,61 @@ const getStyles = () => {
   header:{
     width: '100%',
     height: 30,
+    zIndex: 100,
     // backgroundColor: 'red',
     paddingLeft: 20,
     paddingRight: 20,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
+},
+inputSection:{
+    backgroundColor: '#5964FFFF',
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+    marginTop: 50,
+    display: 'flex',
+    justifyContent: 'space-between'
+    // bottom: 10
+  },
+  inputspace:{
+    height: 45,
+    marginTop:10,
+    width: '100%',
+    paddingLeft: 20,
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  cardContainer:{
+      width: '100%',
+    height: 200,
+    padding: 15,
+    paddingBottom: 100
+},
+cardItem:{
+    backgroundColor: 'white',
+    paddingRight: 20,
+    // height: 50,
+    width: '90%',
+    borderBottomLeftRadius: 20,
+    borderTopRightRadius: 20,
+    display: 'flex',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 5,
+    paddingTop: 5,
+    paddingBottom: 5
+    // backgroundColor: 'grey',
+
+  },
+  logincontainer:{
+    width: '100%',
+    height: '100%',
+    
   }
 });
 }
