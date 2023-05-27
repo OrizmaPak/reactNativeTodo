@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { View, TextInput, Button, ScrollView, Text, TouchableOpacity, Alert } from 'react-native';
-import getStyles from './styles';
+import getStyles from '../Styles/styles';
 import { CheckBox } from 'react-native-elements';
 import { Image } from 'react-native';
-import NavContext from './NavContext';
-import { InputText } from './Component/InputText';
-import { getAllTask, updateFieldTask } from './Hooks/Todo';
+import NavContext from '../Hooks/NavContext';
+import { InputText } from '../Component/InputText';
+import { getAllTask, updateFieldTask } from '../Hooks/Todo';
 
 export const Todo = ({ navigation }) => {
     const {callNotice, setIsLoading, checkboxData, setCheckboxData, userEmail} = useContext(NavContext);
@@ -49,10 +49,10 @@ export const Todo = ({ navigation }) => {
                     <CheckBox checked={item.checked} onPress={() => handleCheckBoxToggle(item.id, item.checked)} />
                     <Text style={{ color: '#1443A3FF', fontWeight: 'bold', fontSize: 14, position: 'relative', right: 16, width: '60%'}}>{item.task}</Text>
                     <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, task: item.task, checked: item.checked, action: 'edit'})}>
-                    <Image source={require('./assets/draw.png')} style={{ width: 20, height: 20 }} />
+                    <Image source={require('../assets/draw.png')} style={{ width: 20, height: 20 }} />
                     </TouchableOpacity>
                     <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, task: item.task, checked: item.checked, action: 'delete'})}>
-                    <Image source={require('./assets/delete.png')} style={{ width: 20, height: 20, position: 'relative', left: 13, }} />
+                    <Image source={require('../assets/delete.png')} style={{ width: 20, height: 20, position: 'relative', left: 13, }} />
                     </TouchableOpacity>
                 </View>
                 ))}
@@ -68,10 +68,10 @@ export const Todo = ({ navigation }) => {
                     <CheckBox checked={item.checked} onPress={() => handleCheckBoxToggle(item.id, item.checked)} />
                     <Text style={{ color: '#1443A3FF', fontWeight: 'bold', fontSize: 14, position: 'relative', right: 16, width: '60%'}}>{item.task}</Text>
                     <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, task: item.task, checked: item.checked, action: 'edit'})}>
-                    <Image source={require('./assets/draw.png')} style={{ width: 20, height: 20 }} />
+                    <Image source={require('../assets/draw.png')} style={{ width: 20, height: 20 }} />
                     </TouchableOpacity>
                     <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={()=>navigation.navigate('Editmodal', {id: item.id, task: item.task, checked: item.checked, action: 'delete'})}>
-                    <Image source={require('./assets/delete.png')} style={{ width: 20, height: 20, position: 'relative', left: 13, }} />
+                    <Image source={require('../assets/delete.png')} style={{ width: 20, height: 20, position: 'relative', left: 13, }} />
                     </TouchableOpacity>
                 </View>
                 ))}

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { useContext } from 'react';
-import NavContext from './NavContext';
+import NavContext from '../Hooks/NavContext';
 
 const getStyles = () => {
     return StyleSheet.create({

@@ -1,7 +1,7 @@
 import { collection, deleteDoc, doc, getDocs, getFirestore, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { app } from '../config/firebase';
 import { useContext } from "react";
-import NavContext from "../NavContext";
+import NavContext from "./NavContext";
 
 const db = getFirestore(app);
 

@@ -5,7 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc  } from "firebase/firestore";
 import { useContext } from 'react';
-import NavContext from '../NavContext';
+import NavContext from './NavContext';
 
 const auth = getAuth(app);
 const db = getFirestore(app);

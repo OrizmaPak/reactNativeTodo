@@ -1,9 +1,9 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Text, TextInput, TouchableHighlight, View } from 'react-native';
-import getStyles from './styles';
+import getStyles from '../Styles/styles';
 import { CheckBox } from 'react-native-elements';
-import { deleteTask, getAllTask, updateMultipleFields } from './Hooks/Todo';
-import NavContext from './NavContext';
+import { deleteTask, getAllTask, updateMultipleFields } from '../Hooks/Todo';
+import NavContext from '../Hooks/NavContext';
 
 export const EditModal = ({ navigation, route }) => {
   const {setCheckboxData, callNotice, setIsLoading, userEmail} = useContext(NavContext)

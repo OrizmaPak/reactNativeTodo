@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { View, Image, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
-import getStyles from './styles';
-import NavContext from './NavContext';
-import { removeAccessToken, signinWithEmailAndPassword, storeAccessToken } from './Hooks/useAuth';
+import getStyles from '../Styles/styles';
+import NavContext from '../Hooks/NavContext';
+import { removeAccessToken, signinWithEmailAndPassword, storeAccessToken } from '../Hooks/useAuth';
 
 export const Login = ({navigation}) => {
   const { setUserEmail, setUserName, setNotify, setNotifyText, setNotifyStatus, setIsLoading } = useContext(NavContext);
@@ -56,7 +56,7 @@ export const Login = ({navigation}) => {
   return (
     <View style={styles.logincontainer}>
       <Image
-        source={require('./assets/logo.png')}
+        source={require('../assets/logo.png')}
         style={{ width: 300, height: 100, marginLeft: 'auto', marginRight: 'auto', transform: [{ scale: 0.8 }] }}
       />
     <TouchableOpacity onPress={()=>navigation.navigate('Register')}>

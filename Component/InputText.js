@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { TextInput, View, Button, Alert } from 'react-native';
-import getStyles from '../styles';
+import getStyles from '../Styles/styles';
 import { addATask, getAllTask } from '../Hooks/Todo';
-import NavContext from '../NavContext';
+import NavContext from '../Hooks/NavContext';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export const InputText = ({ buttontext }) => {

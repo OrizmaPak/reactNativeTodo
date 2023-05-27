@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { View, Image, TextInput, TouchableOpacity, Text, Alert, ScrollView } from 'react-native';
-import getStyles from './styles';
-import NavContext from './NavContext';
+import getStyles from '../Styles/styles';
+import NavContext from '../Hooks/NavContext';
 import { Firebase } from 'firebase/app';
-import { registerWithEmailAndPassword, removeAccessToken, storeAccessToken } from './Hooks/useAuth';
+import { registerWithEmailAndPassword, removeAccessToken, storeAccessToken } from '../Hooks/useAuth';
 
 export const Register = ({navigation}) => {
   const { setUserName, setNotify, setNotifyText, setNotifyStatus, setIsLoading, setUserEmail } = useContext(NavContext);
@@ -68,7 +68,7 @@ export const Register = ({navigation}) => {
   return (
     <View style={styles.logincontainer}>
       <Image
-        source={require('./assets/logo.png')}
+        source={require('../assets/logo.png')}
         style={{ width: 300, height: 100, marginLeft: 'auto', marginRight: 'auto', transform: [{ scale: 0.8 }] }}
       />
         <ScrollView>
