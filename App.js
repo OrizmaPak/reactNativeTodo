@@ -19,12 +19,30 @@ import { ActivityIndicator } from 'react-native';
 import { getNamesFromEmail, signOutAUser } from './Hooks/useAuth';
 import { getAllTask } from './Hooks/Todo';
 import { MakePayments } from './Routes/MakePayments';
-import { CardInputs } from './Routes/CardInputs';
 import RNPaystack from 'react-native-paystack';
+import { CardInputs } from './Routes/CardInputs';
 
-
-console.log('RNPaystack', RNPaystack) 
-// RNPaystack.init({ publicKey: 'pk_live_132fe0fffedc720dd4455869215ae27be23ca2ff' });
+// try{'
+//   RNPaystack.init({ publicKey: 'pk_live_132fe0fffedc720dd4455869215ae27be23ca2ff' });
+//   RNPaystack.chargeCardWithAccessCode({
+//     cardNumber: '4123450131001381', 
+//     expiryMonth: '10', 
+//     expiryYear: '17', 
+//     cvc: '883',
+//     accessCode: '2p3j42th639duy4'
+//   })
+// .then(response => {
+//   console.log(response); // do stuff with the token
+// })
+// .catch(error => {
+//   console.log(error); // error is a javascript Error object
+//   console.log(error.message);
+//   console.log(error.code);
+// })
+//   }))
+// }catch(error){ 
+//   console.log('paystackError', error)
+// }
 
 // import {NavigateContextProvider}  from "./Navigate" 
 
