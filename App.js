@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Image, Text, TouchableOpacity, View, Animated, ScrollView, Dimensions, TextInput, Button } from 'react-native';
+import { Alert, Image, Text, TouchableOpacity, View, Animated, ScrollView, Dimensions, TextInput, Button, Keyboard } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -18,6 +18,14 @@ import { app } from './config/firebase';
 import { ActivityIndicator } from 'react-native';
 import { getNamesFromEmail, signOutAUser } from './Hooks/useAuth';
 import { getAllTask } from './Hooks/Todo';
+import { MakePayments } from './Routes/MakePayments';
+import { CardInputs } from './Routes/CardInputs';
+import RNPaystack from 'react-native-paystack';
+
+
+console.log('RNPaystack', RNPaystack) 
+// RNPaystack.init({ publicKey: 'pk_live_132fe0fffedc720dd4455869215ae27be23ca2ff' });
+
 // import {NavigateContextProvider}  from "./Navigate" 
 
 
@@ -183,6 +191,11 @@ export default function App() {
     navigationRef.current.navigate('Login');
   }
 
+  // REMOVE KEYBOARD WHEN LOADING
+  // useEffect(()=>{
+     if(isLoading)Keyboard.dismiss()
+  // },[isLoading])
+
   return (
     // <NavigateContextProvider>
     <NavContext.Provider value={{ checkboxData, setCheckboxData, callNotice, isLoading, setIsLoading, navAction, setNavAction, modal, setModal, animator, notify, setNotify, notifyStatus, setNotifyStatus, notifytext, setNotifyText, userEmail, setUserEmail, userName, setUserName }}>
@@ -230,7 +243,7 @@ export default function App() {
                       />
                       <Text style={styles.navitem}>Home</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.button} onPress={()=>{setNavAction(false)}}> 
+                  <TouchableOpacity style={styles.button} onPress={()=>{navigationRef.current.navigate('MakePayments');setNavAction(false)}}> 
                       <Image source={require('./assets/pay.png')}
                       style={{ width: 25, height: 25 }}  
                       />
@@ -312,6 +325,16 @@ export default function App() {
                       <Stack.Screen 
                         name="Editmodal" 
                         component={EditModal} 
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen 
+                        name="MakePayments" 
+                        component={MakePayments} 
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen 
+                        name="CardInputs" 
+                        component={CardInputs} 
                         options={{ headerShown: false }}
                       />
                     </>

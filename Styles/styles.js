@@ -140,7 +140,12 @@ cardItem:{
   logincontainer:{
     width: '100%',
     height: '100%',
-    
+  },
+  carddate:{
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    // height: '300',
   }
 });
 }
