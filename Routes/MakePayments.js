@@ -1,15 +1,39 @@
 import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import getStyles from '../Styles/styles';
-import RNPaystack from 'react-native-paystack';
 import NavContext from '../Hooks/NavContext';
+import { PAYSTACK_PUBLIC_KEY2 } from "@env";
+import axios from 'axios';
 
 export const MakePayments = ({ navigation }) => {
   const styles = getStyles();
   const [amount, setAmount] = useState('');
-  const [reference, setReference] = useState('');
+//   const [reference, setReference] = useState('');
   const { callNotice } = useContext(NavContext)
-
+  const {userEmail} = useContext(NavContext)
+  const proceedPayment =async()=>{
+    try {
+        const requestBody = {
+          email: userEmail,
+          amount: amount,
+        };
+  
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${PAYSTACK_PUBLIC_KEY2}`,
+        };
+  
+        const response = await axios.post('https://api.paystack.co/transaction/initialize', requestBody, {
+          headers: headers,
+        });
+        // if(response.status == true){
+            navigation.navigate('PayStack', {url:response.data.data.authorization_url})
+        // }
+        console.log('response.data', response.data);
+      } catch (error) {
+        console.error('oboy', error);
+      }
+  }
   return (
     <>
       <View style={styles.logincontainer}>
@@ -34,7 +58,7 @@ export const MakePayments = ({ navigation }) => {
           value={amount}
           onChangeText={setAmount}
         />
-        <Text style={{ color: 'white', marginLeft: 35, marginTop: 40 }}>
+        {/* <Text style={{ color: 'white', marginLeft: 35, marginTop: 40 }}>
         Reference(optional)
         </Text>
         <TextInput
@@ -54,7 +78,7 @@ export const MakePayments = ({ navigation }) => {
           placeholder="Reference"
           value={reference}
           onChangeText={setReference}
-        />
+        /> */}
 
         <View
           style={{
@@ -67,7 +91,7 @@ export const MakePayments = ({ navigation }) => {
           }}
         >
           <TouchableOpacity
-            onPress={() => { amount > 99 ? navigation.navigate('CardInputs', {amount:amount, reference:reference}) : callNotice('Please minimum amount is 100 naira', 0)}}
+            onPress={() => { amount > 99 ? proceedPayment() : callNotice('Please minimum amount is 100 naira', 0)}}
             style={{ backgroundColor: '#5BBD64FF', padding: 10, borderRadius: 5 }}
             underlayColor="#DDDDDD"
           >

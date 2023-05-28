@@ -20,13 +20,8 @@ import { getNamesFromEmail, signOutAUser } from './Hooks/useAuth';
 import { getAllTask } from './Hooks/Todo';
 import { MakePayments } from './Routes/MakePayments';
 import { CardInputs } from './Routes/CardInputs';
-import RNPaystack from 'react-native-paystack';
-
-
-console.log('RNPaystack', RNPaystack) 
-// RNPaystack.init({ publicKey: 'pk_live_132fe0fffedc720dd4455869215ae27be23ca2ff' });
-
-// import {NavigateContextProvider}  from "./Navigate" 
+import { PayStack, PaymentWebView } from './Routes/PayStack';
+// console.log('envvvv', PAYSTACK_PUBLIC_KEY);
 
 
 
@@ -192,9 +187,7 @@ export default function App() {
   }
 
   // REMOVE KEYBOARD WHEN LOADING
-  // useEffect(()=>{
      if(isLoading)Keyboard.dismiss()
-  // },[isLoading])
 
   return (
     // <NavigateContextProvider>
@@ -332,11 +325,16 @@ export default function App() {
                         component={MakePayments} 
                         options={{ headerShown: false }}
                       />
-                      <Stack.Screen 
+                        <Stack.Screen 
+                          name="PayStack" 
+                          component={PayStack} 
+                          options={{ headerShown: false }}
+                        />
+                      {/* <Stack.Screen 
                         name="CardInputs" 
                         component={CardInputs} 
                         options={{ headerShown: false }}
-                      />
+                      /> */}
                     </>
                       :
                       null
