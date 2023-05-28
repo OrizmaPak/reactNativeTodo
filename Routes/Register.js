@@ -5,7 +5,7 @@ import NavContext from '../Hooks/NavContext';
 import { Firebase } from 'firebase/app';
 import { registerWithEmailAndPassword, removeAccessToken, storeAccessToken } from '../Hooks/useAuth';
 
-export const Register = ({navigation}) => {
+export const Register = ({ navigation }) => {
   const { setUserName, setNotify, setNotifyText, setNotifyStatus, setIsLoading, setUserEmail } = useContext(NavContext);
   const styles = getStyles();
   const [firstname, setFirstname] = useState('');
@@ -30,39 +30,39 @@ export const Register = ({navigation}) => {
   };
 
   const handleSignup = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     if (!email || !password || !firstname || !lastname) {
       setNotifyText('Please enter all fields');
       setNotifyStatus(0);
       setNotify(true);
     } else {
-        console.log(email, password)
+      console.log(email, password);
       try {
         const user = await registerWithEmailAndPassword(email.trim(), firstname, lastname, password);
-        console.log('our result', user)
-        if(user !== null){
-            setNotifyText('Account created successfully');
-            setNotifyStatus(1);
-            setNotify(true);
-            setUserEmail(user.email);
-            setUserName(user.name);
-            storeAccessToken(user.token)
-            navigation.navigate('Todo')
-        }else{
-            setNotifyText('An Error Occured');
-            setNotifyStatus(0);
-            setNotify(true);
-            setUserEmail(null)
-            removeAccessToken()
+        console.log('our result', user);
+        if (user !== null) {
+          setNotifyText('Account created successfully');
+          setNotifyStatus(1);
+          setNotify(true);
+          setUserEmail(user.email);
+          setUserName(user.name);
+          storeAccessToken(user.token);
+          navigation.navigate('Todo');
+        } else {
+          setNotifyText('An Error Occured');
+          setNotifyStatus(0);
+          setNotify(true);
+          setUserEmail(null);
+          removeAccessToken();
         }
-        // User has logged in successfully
+        // User has signed up successfully
         // You can navigate to the main screen or perform other actions
       } catch (error) {
         console.log(error);
-        // Handle login error
+        // Handle signup error
       }
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   return (
@@ -71,93 +71,98 @@ export const Register = ({navigation}) => {
         source={require('../assets/logo.png')}
         style={{ width: 300, height: 100, marginLeft: 'auto', marginRight: 'auto', transform: [{ scale: 0.8 }] }}
       />
-        <ScrollView>
-              
-    <TextInput
-        style={{
-          height: 55,
-          width: '82%',
-          marginTop: 20,
-          borderLeftWidth: 0,
-          borderColor: 'gray',
-          borderWidth: 1,
-          paddingHorizontal: 10,
-          backgroundColor: 'white',
-          borderRadius: 10,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-        placeholder="First Name"
-        value={firstname}
-        onChangeText={handleFirstnameChange}
-      />
+      <ScrollView>
+        <TextInput
+          style={{
+            height: 55,
+            width: '82%',
+            marginTop: 20,
+            borderLeftWidth: 0,
+            borderColor: 'gray',
+            borderWidth: 1,
+            paddingHorizontal: 10,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          placeholder="First Name"
+          value={firstname}
+          onChangeText={handleFirstnameChange}
+        />
 
-      <TextInput
-        style={{
-          height: 55,
-          width: '82%',
-          marginTop: 20,
-          borderLeftWidth: 0,
-          borderColor: 'gray',
-          borderWidth: 1,
-          paddingHorizontal: 10,
-          backgroundColor: 'white',
-          borderRadius: 10,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-        placeholder="Last name"
-        value={lastname}
-        onChangeText={handleLastnameChange}
-      />
-      <TextInput
-        style={{
-          height: 55,
-          width: '82%',
-          marginTop: 20,
-          borderLeftWidth: 0,
-          borderColor: 'gray',
-          borderWidth: 1,
-          paddingHorizontal: 10,
-          backgroundColor: 'white',
-          borderRadius: 10,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-        placeholder="Email"
-        value={email}
-        onChangeText={handleTextChange}
-      />
+        <TextInput
+          style={{
+            height: 55,
+            width: '82%',
+            marginTop: 20,
+            borderLeftWidth: 0,
+            borderColor: 'gray',
+            borderWidth: 1,
+            paddingHorizontal: 10,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          placeholder="Last Name"
+          value={lastname}
+          onChangeText={handleLastnameChange}
+        />
 
-      <TextInput
-        secureTextEntry={true}
-        style={{
-          height: 55,
-          width: '82%',
-          marginTop: 20,
-          borderLeftWidth: 0,
-          borderColor: 'gray',
-          borderWidth: 1,
-          paddingHorizontal: 10,
-          backgroundColor: 'white',
-          borderRadius: 10,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-        placeholder="Password"
-        value={password}
-        onChangeText={handlePasswordChange}
-      />
+        <TextInput
+          style={{
+            height: 55,
+            width: '82%',
+            marginTop: 20,
+            borderLeftWidth: 0,
+            borderColor: 'gray',
+            borderWidth: 1,
+            paddingHorizontal: 10,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          placeholder="Email"
+          value={email}
+          onChangeText={handleTextChange}
+        />
 
-    <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
-      <Text style={{ color: 'white', marginLeft: 35, marginTop: 10 }}>Already have an account? Sign In</Text>
-    </TouchableOpacity>
-      <View style={{ width: 100, position: 'relative', marginLeft: 'auto', marginRight: 'auto', top: 10, left: 95 }}>
-        <TouchableOpacity onPress={handleSignup} style={{ backgroundColor: '#5BBD64FF', padding: 10, borderRadius: 5, position: 'relative', top:-10 }} underlayColor="#DDDDDD">
-          <Text style={{ color: '#FFFFFF', textAlign: 'center', fontWeight: 800 }}>REGISTER</Text>
+        <TextInput
+          secureTextEntry={true}
+          style={{
+            height: 55,
+            width: '82%',
+            marginTop: 20,
+            borderLeftWidth: 0,
+            borderColor: 'gray',
+            borderWidth: 1,
+            paddingHorizontal: 10,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          placeholder="Password"
+          value={password}
+          onChangeText={handlePasswordChange}
+        />
+
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={{ color: 'white', marginLeft: 35, marginTop: 10 }}>Already have an account? Sign In</Text>
         </TouchableOpacity>
-      </View>
-        </ScrollView>
+
+        <View style={{ width: 100, position: 'relative', marginLeft: 'auto', marginRight: 'auto', top: 10, left: 95 }}>
+          <TouchableOpacity
+            onPress={handleSignup}
+            style={{ backgroundColor: '#5BBD64FF', padding: 10, borderRadius: 5, position: 'relative', top: -10 }}
+            underlayColor="#DDDDDD"
+          >
+            <Text style={{ color: '#FFFFFF', textAlign: 'center', fontWeight: 800 }}>REGISTER</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };

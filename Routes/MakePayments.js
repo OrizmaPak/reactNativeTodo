@@ -8,38 +8,38 @@ import axios from 'axios';
 export const MakePayments = ({ navigation }) => {
   const styles = getStyles();
   const [amount, setAmount] = useState('');
-//   const [reference, setReference] = useState('');
-  const { callNotice } = useContext(NavContext)
-  const {userEmail} = useContext(NavContext)
-  const proceedPayment =async()=>{
+  const { callNotice, userEmail } = useContext(NavContext);
+
+  const proceedPayment = async () => {
     try {
-        const requestBody = {
-          email: userEmail,
-          amount: amount,
-        };
-  
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${PAYSTACK_PUBLIC_KEY2}`,
-        };
-  
-        const response = await axios.post('https://api.paystack.co/transaction/initialize', requestBody, {
-          headers: headers,
-        });
-        // if(response.status == true){
-            navigation.navigate('PayStack', {url:response.data.data.authorization_url})
-        // }
-        console.log('response.data', response.data);
-      } catch (error) {
-        console.error('oboy', error);
-      }
-  }
+      const requestBody = {
+        email: userEmail,
+        amount: amount+'00',
+      };
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${PAYSTACK_PUBLIC_KEY2}`,
+      };
+
+      const response = await axios.post('https://api.paystack.co/transaction/initialize', requestBody, {
+        headers: headers,
+      });
+
+      navigation.navigate('PayStack', { url: response.data.data.authorization_url });
+
+      console.log('response.data', response.data);
+    } catch (error) {
+      console.error('oboy', error);
+    }
+  };
+
   return (
     <>
       <View style={styles.logincontainer}>
-          <Text style={{ color: 'white', marginLeft: 35, marginTop: 10 }}>
-            Enter Amount (&#8358;)
-          </Text>
+        <Text style={{ color: 'white', marginLeft: 35, marginTop: 10 }}>
+          Enter Amount (&#8358;)
+        </Text>
         <TextInput
           style={{
             height: 55,
@@ -58,27 +58,6 @@ export const MakePayments = ({ navigation }) => {
           value={amount}
           onChangeText={setAmount}
         />
-        {/* <Text style={{ color: 'white', marginLeft: 35, marginTop: 40 }}>
-        Reference(optional)
-        </Text>
-        <TextInput
-          style={{
-            height: 55,
-            width: '82%',
-            marginTop: 20,
-            borderLeftWidth: 0,
-            borderColor: 'gray',
-            borderWidth: 1,
-            paddingHorizontal: 10,
-            backgroundColor: 'white',
-            borderRadius: 10,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-          placeholder="Reference"
-          value={reference}
-          onChangeText={setReference}
-        /> */}
 
         <View
           style={{

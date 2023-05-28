@@ -29,15 +29,6 @@ export default function App() {
   // TO DO ITEMS
   const [checkboxData, setCheckboxData] = useState([
     // { id: 1, checked: false, text: 'Going to the marketGoing to the marketGoing to the market' },
-    // { id: 2, checked: false, text: 'Meeting with friends' },
-    // { id: 3, checked: false, text: 'Finish homework' },
-    // { id: 4, checked: false, text: 'Exercise at the gym' },
-    // { id: 5, checked: false, text: 'Read a book' },
-    // { id: 6, checked: false, text: 'Buy groceries' },
-    // { id: 7, checked: false, text: 'Buy food' },
-    // { id: 8, checked: false, text: 'Buy gold' },
-    // { id: 9, checked: false, text: 'Buy silver' },
-    // { id: 10, checked: false, text: 'Buy bitcoin' },
 ]);
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('')

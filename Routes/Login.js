@@ -4,8 +4,15 @@ import getStyles from '../Styles/styles';
 import NavContext from '../Hooks/NavContext';
 import { removeAccessToken, signinWithEmailAndPassword, storeAccessToken } from '../Hooks/useAuth';
 
-export const Login = ({navigation}) => {
-  const { setUserEmail, setUserName, setNotify, setNotifyText, setNotifyStatus, setIsLoading } = useContext(NavContext);
+export const Login = ({ navigation }) => {
+  const {
+    setUserEmail,
+    setUserName,
+    setNotify,
+    setNotifyText,
+    setNotifyStatus,
+    setIsLoading,
+  } = useContext(NavContext);
   const styles = getStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,30 +26,30 @@ export const Login = ({navigation}) => {
   };
 
   const handleLogin = async () => {
-    setIsLoading(true)
-    if (!email || !password ) {
+    setIsLoading(true);
+    if (!email || !password) {
       setNotifyText('Please enter all fields');
       setNotifyStatus(0);
       setNotify(true);
     } else {
-        console.log(email, password)
+      console.log(email, password);
       try {
         const user = await signinWithEmailAndPassword(email.trim(), password);
-        console.log('our result', user)
-        if(user !== null){
-            setNotifyText('Login successful');
-            setNotifyStatus(1);
-            setNotify(true);
-            setUserEmail(user.email);
-            setUserName(user.name);
-            storeAccessToken(user.token)
-            navigation.navigate('Todo')
-        }else{
-            setNotifyText('An Error Occured');
-            setNotifyStatus(0);
-            setNotify(true);
-            setUserEmail(null)
-            removeAccessToken()
+        console.log('our result', user);
+        if (user !== null) {
+          setNotifyText('Login successful');
+          setNotifyStatus(1);
+          setNotify(true);
+          setUserEmail(user.email);
+          setUserName(user.name);
+          storeAccessToken(user.token);
+          navigation.navigate('Todo');
+        } else {
+          setNotifyText('An Error Occurred');
+          setNotifyStatus(0);
+          setNotify(true);
+          setUserEmail(null);
+          removeAccessToken();
         }
         // User has logged in successfully
         // You can navigate to the main screen or perform other actions
@@ -51,17 +58,18 @@ export const Login = ({navigation}) => {
         // Handle login error
       }
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
+
   return (
     <View style={styles.logincontainer}>
       <Image
         source={require('../assets/logo.png')}
         style={{ width: 300, height: 100, marginLeft: 'auto', marginRight: 'auto', transform: [{ scale: 0.8 }] }}
       />
-    <TouchableOpacity onPress={()=>navigation.navigate('Register')}>
-      <Text style={{ color: 'white', marginLeft: 35, marginTop: 10 }}>Don't have an account? SignUp</Text>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <Text style={{ color: 'white', marginLeft: 35, marginTop: 10 }}>Don't have an account? SignUp</Text>
+      </TouchableOpacity>
       <TextInput
         style={{
           height: 55,
@@ -102,7 +110,11 @@ export const Login = ({navigation}) => {
       />
       <Text style={{ color: 'white', marginLeft: 35, marginTop: 10 }}>Forgot password?</Text>
       <View style={{ width: 100, position: 'relative', marginLeft: 'auto', marginRight: 'auto', top: 10, left: 95 }}>
-        <TouchableOpacity onPress={handleLogin} style={{ backgroundColor: '#5BBD64FF', padding: 10, borderRadius: 5 }} underlayColor="#DDDDDD">
+        <TouchableOpacity
+          onPress={handleLogin}
+          style={{ backgroundColor: '#5BBD64FF', padding: 10, borderRadius: 5 }}
+          underlayColor="#DDDDDD"
+        >
           <Text style={{ color: '#FFFFFF', textAlign: 'center', fontWeight: 800 }}>LOGIN</Text>
         </TouchableOpacity>
       </View>
